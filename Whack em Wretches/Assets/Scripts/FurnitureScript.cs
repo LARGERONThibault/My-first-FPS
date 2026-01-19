@@ -3,7 +3,7 @@ using UnityEngine;
 public class FurnitureScript : MonoBehaviour
 {
     public Furniture reference;
-    int mass;
+    public int mass;
     void Awake()
     {
         mass = reference.mass;
