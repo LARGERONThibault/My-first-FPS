@@ -9,7 +9,7 @@ public class PlayerScript : MonoBehaviour
     public float pushStrenght;
     public float pushInflation;
     public float pushCooldown;
-    public float pushAvailable;
+    public bool pushAvailable;
 
     //gère la rotation de la caméra en déterminant la rotation  selon l'axe de la souris et en l'ajoutant à la rotation de la caméra.
     //side note : je vais imploser j'ai galéré si longtemps pour 2 lignes de code.
@@ -68,11 +68,21 @@ public class PlayerScript : MonoBehaviour
         {
             Debug.Log("Pull");
             GameObject collided = pushHit.transform.gameObject;
-            if (collided.GetComponent<FurnitureScript>() == true)
+            if (collided.GetComponent<EntityScript>() == true)
             {
                 Pulling(collided);
             }
         }
+    }
+
+    //Coroutine qui gère le cooldown du pull.
+    IEnumerator PullCooldown()
+    {
+        for (int i = 0; i < pushCooldown; i++) 
+        {
+            yield return new WaitForSecondsRealtime(1);
+        }
+        pushAvailable = true;
     }
 
 
