@@ -20,7 +20,7 @@ public class PlayerScript : MonoBehaviour
         myBody = GetComponent<Rigidbody>();
     }
 
-    //Coroutine qui gère la poussée de façon graduelle : d'abord, la poussée monte en intensité, puis elle redescend.
+    //void
     IEnumerator Pushing(GameObject pushed)
     {
         Debug.Log("Pushing rn");
@@ -33,13 +33,13 @@ public class PlayerScript : MonoBehaviour
         }
         for (int i = 0; i < 5; i++)
         {
-            pushStrenght -= pushInflation;
-            pushed.transform.Translate(transform.TransformDirection(Vector3.forward) * pushStrenght * Time.deltaTime);
-            yield return new WaitForSecondsRealtime(0.05f);
+                pushStrenght -= pushInflation;
+                pushed.transform.Translate(transform.TransformDirection(Vector3.forward) * pushStrenght * Time.deltaTime);
+                yield return new WaitForSecondsRealtime(0.05f);
         }
+            pushStrenght = regularPushStrenght;
     }
-    
-      //Gère l'appel de la Coroutie Pushing() grâce )à un raycast qui prend l'objet au centre de la visée, vérifie s'il est valide, puis lui applique la poussée.
+
     void Push()
     {
         RaycastHit pushHit;
@@ -54,13 +54,11 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    //Méthode qui téléporte un objet devant le joueur avec un petit offset.
     void Pulling(GameObject pulled)
     {
         pulled.transform.position = transform.position + transform.TransformDirection(Vector3.forward) * 2;
     }
 
-    //Méthode qui envoie un raycast et qui pull si l'objet touché est élligible.
     void Pull()
     {
         RaycastHit pushHit;
