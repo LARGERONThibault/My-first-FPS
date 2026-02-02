@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class Enemy1VisualManager : MonoBehaviour
+public class EnemyVisualManager : MonoBehaviour
 {
     public Transform playerTransform;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
-        
+        playerTransform = GameObject.Find("Main Camera").GetComponent<Transform>();
     }
 
     // Update is called once per frame

@@ -32,14 +32,12 @@ public class PlayerScript : MonoBehaviour
     //void
     IEnumerator Pushing(GameObject pushed)
     {
-        /*
-        float enemyspeed;
-        if (pushed.GetComponent<Enemy1Script>() == true)
+        float enemyspeed = 0;
+        if (pushed.GetComponent<EnemyScript>() == true)
         {
-            enemyspeed = pushed.GetComponent<Enemy1Script>().speed;
-            pushed.GetComponent<Enemy1Script>().speed = 0;
+            enemyspeed = pushed.GetComponent<EnemyScript>().speed;
+            pushed.GetComponent<EnemyScript>().speed = 0;
         }
-        */
         float regularPushStrenght = pushStrenght;
         for (int s = 0; s < 5; s++)
         {
@@ -54,12 +52,10 @@ public class PlayerScript : MonoBehaviour
                 yield return new WaitForSecondsRealtime(0.05f);
         }
             pushStrenght = regularPushStrenght;
-        /*
-        if (pushed.GetComponent<Enemy1Script>() == true)
+        if (pushed.GetComponent<EnemyScript>() == true)
         {
-            pushed.GetComponent<Enemy1Script>().speed = enemyspeed;
+            pushed.GetComponent<EnemyScript>().speed = enemyspeed;
         }
-        */
     }
 
     void Push()

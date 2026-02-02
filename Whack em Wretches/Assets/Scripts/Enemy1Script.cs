@@ -1,20 +1,15 @@
 using UnityEngine;
 using System.Collections;
 
-public class Enemy1Script : MonoBehaviour
+public class Enemy1Script : EnemyScript
 {
-
-    public Transform playerTransform;
-    public float speed;
-    public float might;
     public bool dealsdamage;
     public float damagecooldown;
-    void Update()
+    void LateUpdate()
     {
-        transform.Translate(Vector3.MoveTowards(transform.position, playerTransform.position,speed)*Time.deltaTime);
+        Vector3 direction = transform.position - playerTransform.position;
+        transform.Translate(-direction.normalized * speed * Time.deltaTime);
     }
-    
-
     void OnCollisionEnter(Collision collision)
     {
         GameObject collided = collision.gameObject;
