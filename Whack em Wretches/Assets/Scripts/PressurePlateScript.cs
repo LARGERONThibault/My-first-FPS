@@ -5,7 +5,7 @@ public class PressurePlateScript : MonoBehaviour
 {
     public Material noCooldown;
     public Material onCooldown;
-    public bool hasCooldown;
+    public bool hasCooldown = true;
     public float cooldown;
     public float damage;
 
@@ -32,6 +32,7 @@ public class PressurePlateScript : MonoBehaviour
             else if (collided.GetComponent<EnemyScript>() == true)
             {
                 Destroy(collided);
+                StartCoroutine(Cooldown());
             }
         }
     }
