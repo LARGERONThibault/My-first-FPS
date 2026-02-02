@@ -4,12 +4,22 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     Rigidbody myBody;
+    Transform mytransform;
+    public float health;
     public float rotationSpeed;
     public float speed;
     public float pushStrenght;
     public float pushInflation;
     public float pushCooldown;
     public bool pushAvailable;
+    public float pullCooldown;
+    public bool pullAvailable;
+
+    void Awake()
+    {
+        myBody = GetComponent<Rigidbody>();
+        mytransform = transform;
+    }
 
     //gère la rotation de la caméra en déterminant la rotation  selon l'axe de la souris et en l'ajoutant à la rotation de la caméra.
     //side note : je vais imploser j'ai galéré si longtemps pour 2 lignes de code.
@@ -17,27 +27,39 @@ public class PlayerScript : MonoBehaviour
     {
         float rotation = rotationSpeed * Input.GetAxis("Mouse X");
         transform.Rotate(0, rotation, 0);
-        myBody = GetComponent<Rigidbody>();
     }
 
     //void
     IEnumerator Pushing(GameObject pushed)
     {
-        Debug.Log("Pushing rn");
+        /*
+        float enemyspeed;
+        if (pushed.GetComponent<Enemy1Script>() == true)
+        {
+            enemyspeed = pushed.GetComponent<Enemy1Script>().speed;
+            pushed.GetComponent<Enemy1Script>().speed = 0;
+        }
+        */
         float regularPushStrenght = pushStrenght;
         for (int s = 0; s < 5; s++)
         {
             pushStrenght += pushInflation;
-            pushed.transform.Translate(transform.TransformDirection(Vector3.forward) * pushStrenght * Time.deltaTime);
+            pushed.transform.Translate(mytransform.TransformDirection(Vector3.forward) * pushStrenght * Time.deltaTime);
             yield return new WaitForSecondsRealtime(0.05f);
         }
         for (int i = 0; i < 5; i++)
         {
                 pushStrenght -= pushInflation;
-                pushed.transform.Translate(transform.TransformDirection(Vector3.forward) * pushStrenght * Time.deltaTime);
+                pushed.transform.Translate(mytransform.TransformDirection(Vector3.forward).normalized * pushStrenght * Time.deltaTime);
                 yield return new WaitForSecondsRealtime(0.05f);
         }
             pushStrenght = regularPushStrenght;
+        /*
+        if (pushed.GetComponent<Enemy1Script>() == true)
+        {
+            pushed.GetComponent<Enemy1Script>().speed = enemyspeed;
+        }
+        */
     }
 
     void Push()
@@ -47,9 +69,11 @@ public class PlayerScript : MonoBehaviour
         {
             Debug.Log("Push)");
             GameObject collided = pushHit.transform.gameObject;
-            if (collided.GetComponent<FurnitureScript>() == true)
+            if (collided.GetComponent<BillboardScript>() == true && pushAvailable == true)
             {
                 StartCoroutine(Pushing(collided));
+                pushAvailable = false;
+                StartCoroutine(PushCooldown());
             }
         }
     }
@@ -66,9 +90,11 @@ public class PlayerScript : MonoBehaviour
         {
             Debug.Log("Pull");
             GameObject collided = pushHit.transform.gameObject;
-            if (collided.GetComponent<EntityScript>() == true)
+            if (collided.GetComponent<BillboardScript>() == true && pullAvailable == true)
             {
                 Pulling(collided);
+                pullAvailable = false;
+                StartCoroutine(PullCooldown());
             }
         }
     }
@@ -76,9 +102,21 @@ public class PlayerScript : MonoBehaviour
     //Coroutine qui gère le cooldown du pull.
     IEnumerator PullCooldown()
     {
-        for (int i = 0; i < pushCooldown; i++) 
+        for (int i = 0; i < pullCooldown; i++) 
         {
             yield return new WaitForSecondsRealtime(1);
+            Debug.Log(i);
+        }
+        pullAvailable = true;
+    }
+    
+    //Coroutine qui gère le cooldown du pull.
+    IEnumerator PushCooldown()
+    {
+        for (int i = 0; i < pushCooldown; i++)
+        {
+            yield return new WaitForSecondsRealtime(1);
+            Debug.Log(i);
         }
         pushAvailable = true;
     }
@@ -86,6 +124,8 @@ public class PlayerScript : MonoBehaviour
 
     void Update()
     {
+
+        
         //rotate la caméra si la souris est bougée avec assez d'intensité.
         if (Input.GetAxis("Mouse X") < 0.1 || Input.GetAxis("Mouse X") > 0.1) 
         { 
@@ -100,6 +140,11 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             Pull();
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            health -= 20;
         }
     }
 
@@ -125,6 +170,8 @@ public class PlayerScript : MonoBehaviour
         {
             transform.Translate(Vector3.right * speed * Time.deltaTime);
         }
+
+        if (health == 0) { Application.Quit(); }
     }
 }
 /*
