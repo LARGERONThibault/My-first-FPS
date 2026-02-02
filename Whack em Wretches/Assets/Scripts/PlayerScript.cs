@@ -65,7 +65,7 @@ public class PlayerScript : MonoBehaviour
         {
             Debug.Log("Push)");
             GameObject collided = pushHit.transform.gameObject;
-            if (collided.GetComponent<BillboardScript>() == true && pushAvailable == true)
+            if (collided.GetComponent<EnemyScript>() == true && pushAvailable == true)
             {
                 StartCoroutine(Pushing(collided));
                 pushAvailable = false;
@@ -86,7 +86,7 @@ public class PlayerScript : MonoBehaviour
         {
             Debug.Log("Pull");
             GameObject collided = pushHit.transform.gameObject;
-            if (collided.GetComponent<BillboardScript>() == true && pullAvailable == true)
+            if (collided.GetComponent<EnemyScript>() == true && pullAvailable == true)
             {
                 Pulling(collided);
                 pullAvailable = false;
