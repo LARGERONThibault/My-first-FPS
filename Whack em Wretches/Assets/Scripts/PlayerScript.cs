@@ -139,7 +139,7 @@ public class PlayerScript : MonoBehaviour
         }
         pullAvailable = true;
     }
-    
+
     //Coroutine qui gère le cooldown du pull.
     IEnumerator PushCooldown()
     {
@@ -150,15 +150,7 @@ public class PlayerScript : MonoBehaviour
         }
         pushAvailable = true;
     }
-
-    IEnumerator CameraShake(float ammount, float time)
-    {
-        for (float i = 0; i<time; i++)
-        {
-            transform.localPosition = Random.insideUnitSphere * ammount;
-            yield return new WaitForSecondsRealtime(0.1f);
-        }
-    }
+    
     void Update()
     {
 
@@ -182,7 +174,6 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             health -= 20;
-            StartCoroutine(CameraShake(0.2f, 5));
         }
     }
 
