@@ -91,6 +91,7 @@ public class PlayerScript : MonoBehaviour
 
     void Push()
     {
+        //Envoie un raycast - si c'il collide avec un ennemi ou un meuble, il lui applique la coroutine gérant la poussée.
         RaycastHit pushHit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out pushHit))
         {
@@ -105,11 +106,13 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    //Téléportes devant le joueur le gameobject désigné.
     void Pulling(GameObject pulled)
     {
         pulled.transform.position = transform.position + (transform.TransformDirection(Vector3.forward) * 3);
     }
 
+    //Envoie un raycast qui s'il touche un ennemi ou un meuble et qu'il a ses cooldowns le soumet à la méthode Pulling.
     void Pull()
     {
         RaycastHit pushHit;
@@ -148,7 +151,14 @@ public class PlayerScript : MonoBehaviour
         pushAvailable = true;
     }
 
-
+    IEnumerator CameraShake(float ammount, float time)
+    {
+        for (float i = 0; i<time; i++)
+        {
+            transform.localPosition = Random.insideUnitSphere * ammount;
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
+    }
     void Update()
     {
 
@@ -172,6 +182,7 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             health -= 20;
+            StartCoroutine(CameraShake(0.2f, 5));
         }
     }
 

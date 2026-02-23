@@ -11,7 +11,7 @@ public class FurnitureScript : MonoBehaviour
             Destroy(collided);
             GameObject player = GameObject.Find("Main Camera");
             StopCoroutine("Pushing");
-            player.GetComponent<PlayerScript>().ShutdownSafety(this.gameObject, 50, 6, 0);
+            player.GetComponent<PlayerScript>().ShutdownSafety(this.gameObject, 150, 25,0);
         }
 
         if (collided.GetComponent<FireballScript>() == true && isPushed == true)
@@ -19,8 +19,9 @@ public class FurnitureScript : MonoBehaviour
             collided.GetComponent<FireballScript>().SendAway();
             GameObject player = GameObject.Find("Main Camera");
             StopCoroutine("Pushing");
-            player.GetComponent<PlayerScript>().ShutdownSafety(this.gameObject, 50, 6, 0);
+            player.GetComponent<PlayerScript>().ShutdownSafety(this.gameObject, 150, 25, 0);
         }
+
 
     }
 }

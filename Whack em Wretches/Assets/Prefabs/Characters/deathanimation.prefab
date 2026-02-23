@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1815415048883014420}
   - component: {fileID: 4133345442948039596}
   - component: {fileID: 8715181302572971417}
+  - component: {fileID: 2355285310373332598}
   m_Layer: 0
   m_Name: deathanimation
   m_TagString: Untagged
@@ -4845,3 +4846,15 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &2355285310373332598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 976179360360028143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb54994f93e21e448ad41600d9f2ff64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeathAnimation
