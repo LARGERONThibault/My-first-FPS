@@ -11,6 +11,7 @@ public class PressurePlateScript : MonoBehaviour
 
     IEnumerator Cooldown()
     {
+        hasCooldown = false;
         GetComponent<MeshRenderer>().material = onCooldown;
         yield return new WaitForSecondsRealtime(cooldown);
         hasCooldown = true;
