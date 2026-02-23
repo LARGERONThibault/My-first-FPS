@@ -53,21 +53,6 @@ public class PlayerScript : MonoBehaviour
             pushed.GetComponent<FurnitureScript>().isPushed = true;
         }
 
-        //Définition du code qui remet à la norme toutes les valeurs modifiées durant la Coroutine.
-        void ShutdownSafety()
-        {
-            if (pushed.GetComponent<EnemyScript>() == true)
-            {
-                pushed.GetComponent<EnemyScript>().speed = enemyspeed;
-            }
-            if (pushed.GetComponent<FurnitureScript>() == true)
-            {
-                pushStrenght = initialspeed;
-                pushInflation = initialinflation;
-                pushed.GetComponent<FurnitureScript>().isPushed = false;
-            }
-        }
-
         //D'abord, pousse de plus en plus fort l'ennemi, puis de moins en moins fort.
         if (pushed.GetComponent<FurnitureScript>() == true || pushed.GetComponent<EnemyScript>() == true)
         {
@@ -86,7 +71,22 @@ public class PlayerScript : MonoBehaviour
             }
             pushStrenght = regularPushStrenght;
         }
-        ShutdownSafety();
+        ShutdownSafety(pushed, initialspeed, initialinflation, enemyspeed);
+    }
+
+    //Définition du code qui remet à la norme toutes les valeurs modifiées durant la Coroutine.
+    public void ShutdownSafety(GameObject pushed, float initialspeed, float initialinflation, float enemyspeed)
+    {
+        if (pushed.GetComponent<EnemyScript>() == true)
+        {
+            pushed.GetComponent<EnemyScript>().speed = enemyspeed;
+        }
+        if (pushed.GetComponent<FurnitureScript>() == true)
+        {
+            pushStrenght = initialspeed;
+            pushInflation = initialinflation;
+            pushed.GetComponent<FurnitureScript>().isPushed = false;
+        }
     }
 
     void Push()
@@ -107,7 +107,7 @@ public class PlayerScript : MonoBehaviour
 
     void Pulling(GameObject pulled)
     {
-        pulled.transform.position = transform.position + transform.TransformDirection(Vector3.forward) * 2;
+        pulled.transform.position = transform.position + (transform.TransformDirection(Vector3.forward) * 3);
     }
 
     void Pull()

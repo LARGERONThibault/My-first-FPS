@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1617895306461140156}
   - component: {fileID: 4405480314681366626}
   - component: {fileID: 5524924595806732856}
-  - component: {fileID: 8292080829382549260}
   - component: {fileID: 3744947400429132315}
   m_Layer: 0
   m_Name: enemy1collisions
@@ -84,18 +83,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &8292080829382549260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4247690301294222069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33e2e52cb8bb2ee44b9f53021bfc291b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BillboardScript
 --- !u!114 &3744947400429132315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,7 +90,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4247690301294222069}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc7b847ea76d3f844a48b5d4f6e93806, type: 3}
   m_Name: 

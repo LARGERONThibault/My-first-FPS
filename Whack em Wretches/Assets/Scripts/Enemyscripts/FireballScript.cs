@@ -5,7 +5,7 @@ public class FireballScript : EnemyScript
 {
     GameObject creator;
     public bool isAway;
-    void SendAway()
+    public void SendAway()
     {
         transform.position = new Vector3(9999999, 9999999999999, 9999999);
         isAway = true;
