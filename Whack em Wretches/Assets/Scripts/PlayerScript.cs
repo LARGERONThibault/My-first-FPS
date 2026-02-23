@@ -14,6 +14,8 @@ public class PlayerScript : MonoBehaviour
     public bool pushAvailable;
     public float pullCooldown;
     public bool pullAvailable;
+    public float furniturePushBoost;
+    public float furniturePushInflationBoost;
 
     void Awake()
     {
@@ -22,7 +24,7 @@ public class PlayerScript : MonoBehaviour
     }
 
     //gère la rotation de la caméra en déterminant la rotation  selon l'axe de la souris et en l'ajoutant à la rotation de la caméra.
-    //side note : je vais imploser j'ai galéré si longtemps pour 2 lignes de code.
+    //side note : je vais imploser j'ai sué si longtemps pour 2 lignes de code.
     void RotateCamera()
     {
         float rotation = rotationSpeed * Input.GetAxis("Mouse X");
@@ -32,30 +34,59 @@ public class PlayerScript : MonoBehaviour
     //void
     IEnumerator Pushing(GameObject pushed)
     {
+        //Sauvegarde des valeurs initiales du push a cas où elles seraient changées.
+        float initialspeed = pushStrenght;
+        float initialinflation = pushInflation;
+        //Création de l'espace de stockage pour la vitesse de l'ennemi afin de pouvoir l'immobiliser en la concervant.
         float enemyspeed = 0;
+        //Si c'est un ennemi, on sauvegarde sa vitesse.
         if (pushed.GetComponent<EnemyScript>() == true)
         {
             enemyspeed = pushed.GetComponent<EnemyScript>().speed;
             pushed.GetComponent<EnemyScript>().speed = 0;
         }
-        float regularPushStrenght = pushStrenght;
-        for (int s = 0; s < 5; s++)
+        //Si c'est un meuble, on augmente la puissance du push et on envoie l'information au script du meuble qu'il est poussé pour son prorpe code.
+        else if (pushed.GetComponent<FurnitureScript>() == true)
         {
-            pushStrenght += pushInflation;
-            pushed.transform.Translate(mytransform.TransformDirection(Vector3.forward) * pushStrenght * Time.deltaTime);
-            yield return new WaitForSecondsRealtime(0.05f);
+            pushStrenght += furniturePushBoost;
+            pushInflation += furniturePushInflationBoost;
+            pushed.GetComponent<FurnitureScript>().isPushed = true;
         }
-        for (int i = 0; i < 5; i++)
+
+        //Définition du code qui remet à la norme toutes les valeurs modifiées durant la Coroutine.
+        void ShutdownSafety()
         {
+            if (pushed.GetComponent<EnemyScript>() == true)
+            {
+                pushed.GetComponent<EnemyScript>().speed = enemyspeed;
+            }
+            if (pushed.GetComponent<FurnitureScript>() == true)
+            {
+                pushStrenght = initialspeed;
+                pushInflation = initialinflation;
+                pushed.GetComponent<FurnitureScript>().isPushed = false;
+            }
+        }
+
+        //D'abord, pousse de plus en plus fort l'ennemi, puis de moins en moins fort.
+        if (pushed.GetComponent<FurnitureScript>() == true || pushed.GetComponent<EnemyScript>() == true)
+        {
+            float regularPushStrenght = pushStrenght;
+            for (int s = 0; s < 5; s++)
+            {
+                pushStrenght += pushInflation;
+                pushed.transform.Translate(mytransform.TransformDirection(Vector3.forward) * pushStrenght * Time.deltaTime);
+                yield return new WaitForSecondsRealtime(0.05f);
+            }
+            for (int i = 0; i < 5; i++)
+            {
                 pushStrenght -= pushInflation;
                 pushed.transform.Translate(mytransform.TransformDirection(Vector3.forward).normalized * pushStrenght * Time.deltaTime);
                 yield return new WaitForSecondsRealtime(0.05f);
-        }
+            }
             pushStrenght = regularPushStrenght;
-        if (pushed.GetComponent<EnemyScript>() == true)
-        {
-            pushed.GetComponent<EnemyScript>().speed = enemyspeed;
         }
+        ShutdownSafety();
     }
 
     void Push()

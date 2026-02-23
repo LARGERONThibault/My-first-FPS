@@ -2,10 +2,15 @@ using UnityEngine;
 
 public class FurnitureScript : MonoBehaviour
 {
-    public Furniture reference;
-    int mass;
-    void Awake()
+    public bool isPushed = false;
+    void OnCollisionEnter(Collision collision)
     {
-        mass = reference.mass;
+        GameObject collided = collision.gameObject;
+        if (collided.GetComponent<EnemyScript>() == true && isPushed == true)
+        {
+            Destroy(collided);
+            GameObject player = GameObject.Find("Main Camera");
+            
+        }
     }
 }
